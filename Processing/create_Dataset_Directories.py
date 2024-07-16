@@ -188,7 +188,8 @@ for surah in surah_names:
         os.makedirs(surah_path)
         #print(f"Created directory: {surah_path}")
     else:
-        print(f"Directory already exists: {surah_path}")
+        #print(f"Directory already exists: {surah_path}")
+        continue
 
 print("\n############# Commands ############\n")
 
@@ -199,7 +200,8 @@ for command in commands:
         os.makedirs(command_path)
         #print(f"Created directory: {command_path}")
     else:
-        print(f"Directory already exists: {command_path}")
+        #print(f"Directory already exists: {command_path}")
+        continue
 
 
 print("\n############ Completed #############\n")

@@ -19,14 +19,16 @@ def ensure_directory_exists(directory):
         os.makedirs(directory)
 
 
-def main():
-    input_folder = "Dataset"
-    output_folder = "Dataset2"
-    failure_folder = "failureConversion"
+def main(input_folder,output_folder,success_folder,failure_folder):
+
+    # Ensure input_folder Exist
+    if not os.path.exists(input_folder):
+        print(f" Error : {input_folder} Directory not Found ...")
+        return
 
     # Ensure directories exist
-    ensure_directory_exists(input_folder)
     ensure_directory_exists(output_folder)
+    ensure_directory_exists(success_folder)
     ensure_directory_exists(failure_folder)
 
     # Check if input folder is empty
@@ -44,10 +46,9 @@ def main():
         input_file_path = os.path.join(input_folder, file)
         output_file_path = os.path.join(output_folder, os.path.splitext(file)[0] + ".wav")
         timestamped_failure_folder = os.path.join(failure_folder, datetime.now().strftime('%Y%m%d%H%M%S'))
-        ensure_directory_exists(timestamped_failure_folder)
 
         if convert_m4a_to_wav(input_file_path, output_file_path):
-            shutil.move(input_file_path, output_folder)
+            shutil.move(input_file_path, success_folder)
             success_files += 1
         else:
             ensure_directory_exists(timestamped_failure_folder)
@@ -62,4 +63,9 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    input_folder = "Dataset"
+    output_folder = "Dataset_Converted"
+    failure_folder = "failureConversion"
+    success_folder = "successConversion"
+
+    main(input_folder,output_folder,success_folder,failure_folder)
