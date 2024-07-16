@@ -5,6 +5,9 @@
 *.m4a
 *.wav
 *.mp3
+AllVoices/
+Dataset_Origonal/
+Dataset/
 
 
 

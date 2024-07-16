@@ -1,0 +1,60 @@
+Stop:
+To stop the audio playback.
+Resume:
+To resume the playback after pausing or stopping.
+Surah [name/number]:
+To play a specific Surah by name or number.
+Ayah [number]:
+To play a specific Ayah within a Surah.
+Bookmark:
+To bookmark the current position for later.
+Go to Bookmark:
+To go to the bookmarked position.
+Volume Up:
+To increase the volume.
+Volume Down:
+To decrease the volume.
+Mute:
+To mute the audio.
+Unmute:
+To unmute the audio.
+Shuffle:
+To play Surahs or Ayahs in random order.
+Repeat Surah:
+To repeat the current Surah.
+Repeat Ayah:
+To repeat the current Ayah.
+List Surahs:
+To list all Surahs.
+List Ayahs:
+To list Ayahs in the current Surah.
+Select Language:
+To choose the language for Tafseer or translation.
+Help:
+To provide help or instructions on how to use the app.
+About:
+To provide information about the application.
+Feedback:
+To allow the user to give feedback.
+Update:
+To check for and apply updates.
+Exit:
+To close the application.
+Search:
+To search for a specific Surah, Ayah, or topic.
+Download:
+To download a specific Surah or Ayah for offline use.
+Upload:
+To upload a specific Surah or Ayah.
+History:
+To view the recently played Surahs or Ayahs.
+Clear History:
+To clear the playback history.
+Favorites:
+To access a list of favorite Surahs or Ayahs.
+Add to Favorites:
+To add the current Surah or Ayah to favorites.
+Remove from Favorites:
+To remove the current Surah or Ayah from favorites.
+Settings:
+To adjust various settings, like audio quality, playback speed, etc.
