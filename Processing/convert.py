@@ -19,11 +19,17 @@ def ensure_directory_exists(directory):
         os.makedirs(directory)
 
 
-def main(input_folder,output_folder,success_folder,failure_folder):
+def main(input_folder, output_folder, success_folder, failure_folder,isInRoot):
 
-    # Ensure input_folder Exist
+    if not isInRoot:
+        input_folder = os.path.join(input_folder,'..')
+
+
+
+
+    # Ensure input_folder exists
     if not os.path.exists(input_folder):
-        print(f" Error : {input_folder} Directory not Found ...")
+        print(f"Error: {input_folder} directory not found...")
         return
 
     # Ensure directories exist
@@ -41,13 +47,24 @@ def main(input_folder,output_folder,success_folder,failure_folder):
     processed_files = 0
     success_files = 0
     failed_files = 0
+    warningsCounter = 0
 
     for file in input_files:
         input_file_path = os.path.join(input_folder, file)
         output_file_path = os.path.join(output_folder, os.path.splitext(file)[0] + ".wav")
+        sucess_file_path = os.path.join(success_folder, file)
         timestamped_failure_folder = os.path.join(failure_folder, datetime.now().strftime('%Y%m%d%H%M%S'))
 
+        if os.path.exists(output_file_path):
+            warningsCounter += 1
+            print(f"\t Warning[{warningsCounter}] : {file} already Exist in {output_folder} ...")
+            continue
+
         if convert_m4a_to_wav(input_file_path, output_file_path):
+            if os.path.exists(sucess_file_path):
+                warningsCounter += 1
+                print(f"\t Warning[{warningsCounter}] : {file} already Exist in {success_folder} ...")
+                continue
             shutil.move(input_file_path, success_folder)
             success_files += 1
         else:
@@ -59,7 +76,10 @@ def main(input_folder,output_folder,success_folder,failure_folder):
         progress_percentage = (processed_files / total_files) * 100
         success_percentage = (success_files / total_files) * 100
         failed_percentage = (failed_files / total_files) * 100
-        print(f"Processed {processed_files}/{total_files} ({progress_percentage:.2f}%) ###  Success {success_files}/{total_files} ({success_percentage:.2f}%) # Failure {failed_files}/{total_files} ({failed_percentage:.2f}%) # ")
+
+        print(f"Processed {processed_files}/{total_files} ({progress_percentage:.2f}%) "
+              f"### Success {success_files}/{total_files} ({success_percentage:.2f}%) "
+              f"# Failure {failed_files}/{total_files} ({failed_percentage:.2f}%)")
 
 
 if __name__ == "__main__":
@@ -67,5 +87,23 @@ if __name__ == "__main__":
     output_folder = "Dataset_Converted"
     failure_folder = "failureConversion"
     success_folder = "successConversion"
+    isInRoot = False
 
-    main(input_folder,output_folder,success_folder,failure_folder)
+    #main(input_folder, output_folder, success_folder, failure_folder,isInRoot)
+
+    import os
+
+    # Get the directory of the current script
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+
+    #print(current_directory)
+
+    # Assuming the script is in a subdirectory within the project, navigate up
+    project_root = os.path.abspath(os.path.join(current_directory, '..'))
+    #print("Project Root:", project_root)
+
+    a = os.path.join(input_folder,'..','..')
+    print(os.path.abspath(a))
+
+
+
