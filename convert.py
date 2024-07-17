@@ -15,15 +15,17 @@ def convert_m4a_to_wav(input_file_path, output_file_path):
     isTrimmed = False
     try:
         audio = AudioSegment.from_file(input_file_path, format="m4a")
-        print(len(audio))
-        if len(audio) > 2000:
+        #print(len(audio))
+        if len(audio) > 1000:
             # Trim audio to approximately 1 second
-            new_audio = audio[-1600:-100]  # Trim last 1 second (1000 milliseconds)
+            new_audio = audio[-1300:-100]  # Trim last 1 second (1000 milliseconds)
+
             isTrimmed = True
         else:
             new_audio = audio
         # Export the trimmed audio to WAV format
         new_audio.export(output_file_path, format="wav")
+        #print(f" new : {len(new_audio)}")
         return True,isTrimmed, ""
     except Exception as e:
         return False,isTrimmed, str(e)
@@ -164,10 +166,13 @@ if __name__ == "__main__":
     # Record the start time
     start_time = time.time()
 
-    input_folder = "Dataset"
-    output_folder = "Dataset_Converted"
-    failure_folder = "Failure_Conversion"
-    success_folder = "Success_Conversion"
+    audio_folder = "Audio_Voices"
+    ensure_directory_exists(audio_folder)
+
+    input_folder = "AllVoices"
+    output_folder = f"{audio_folder}/Dataset_Converted"
+    failure_folder = f"{audio_folder}/Failure_Conversion"
+    success_folder = f"{audio_folder}/Success_Conversion"
 
     # set files_to_process to zero if you want to process comolete folder
     files_to_process = 5
