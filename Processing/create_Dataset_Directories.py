@@ -136,6 +136,10 @@ surah_names = [
 
 
 commands = [
+    "Add",
+    "Chain",
+    "Tilawat",
+    "Bayan",
     "Up",
     "Down",
     "Left",
@@ -144,29 +148,12 @@ commands = [
     "Pause",
     "Next",
     "Previous",
-    "Settings",
-    "Repeat",
-    "Menu",
     "Home",
     "Stop",
     "Resume",
+    "Ayat",
     "Bookmark",
-    "Ayah",
-    "Go to Bookmark",
-    "Volume Up",
-    "Volume Down",
-    "Mute",
-    "Unmute",
-    "Shuffle",
-    "Repeat Surah",
-    "Repeat Ayah",
-    "Help",
-    "About",
-    "Feedback",
-    "Exit",
-    "Favorites",
-    "Add to Favorites",
-    "Remove from Favorites"
+    "Volume"
 ]
 
 
@@ -207,3 +194,6 @@ for command in commands:
 print("\n############ Completed #############\n")
 print(f"Suras directories created successfully under {suras_dir}")
 print(f"Commands directories created successfully under {commands_dir}")
+
+
+
