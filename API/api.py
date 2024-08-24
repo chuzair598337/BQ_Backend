@@ -1,14 +1,34 @@
 import os
+import signal
 
-from flask import Flask, jsonify, request
+import psutil
+from flask import Flask, jsonify, request,send_file, abort
 from flask_cors import CORS
 import sqlite3
+import base64
 
 app = Flask(__name__)
 CORS(app)
 
 # Set the database path relative to the current file location
-database = os.path.join(os.path.dirname(__file__), '..', 'Data', 'BQ_Database.db')
+DataFolder = os.path.join(os.path.dirname(__file__), '..', 'Data')
+database = os.path.join(DataFolder, 'database', 'BQ_Database.db')
+tilwatAudios = os.path.join(DataFolder, 'Tilawat')
+
+# print(tilwatAudios)
+# print(database)
+# print(DataFolder)
+
+
+def stop_port(port):
+    for proc in psutil.process_iter(['pid', 'name', 'connections']):
+        if proc.info['connections'] is not None:  # Check if connections is not None
+            for conn in proc.info['connections']:
+                if conn.laddr.port == port:
+                    proc.terminate()
+                    print(f"Process {proc.info['name']} with PID {proc.info['pid']} on port {port} has been terminated.")
+                    return
+    print(f"No process found using port {port}.")
 
 # Function to connect to the database
 def connect_db():
@@ -83,6 +103,44 @@ def delete_surah(surah_id):
     conn.commit()
     conn.close()
     return jsonify({"message": "Surah deleted successfully"})
+
+# get List of audios and pick from folder in api side and return
+@app.route('/api/surahtilawataudios/<int:surah_id>', methods=['GET'])
+def surah_tilawat_audios(surah_id):
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    # Fetch verse file names for the specified surah ID
+    cursor.execute("SELECT verseFileName FROM QuranEPak WHERE surahID=? ORDER BY verseID ASC", (surah_id,))
+    surahs = cursor.fetchall()
+
+    conn.close()
+
+    # Prepare a list to store the results
+    audio_files = []
+
+    for row in surahs:
+        filename = row['verseFileName']
+        file_path = os.path.join(tilwatAudios, filename)
+
+        # Check if the file exists
+        if os.path.exists(file_path):
+            audio_files.append({"verseFileName": filename, "found": True})
+        else:
+            audio_files.append({"verseFileName": filename, "found": False})
+
+    # Return the list of audio files with their status
+    return jsonify(audio_files)
+
+@app.route('/api/surahtilawataudios/file/<filename>', methods=['GET'])
+def get_audio_file(filename):
+    file_path = os.path.join(tilwatAudios, filename)
+
+    # Check if the file exists
+    if os.path.exists(file_path):
+        return send_file(file_path, as_attachment=False, mimetype='audio/mpeg')
+    else:
+        return jsonify({"error": "Audio not found"}), 404
 
 # ------------------- QuranEPak Routes -------------------
 
@@ -319,20 +377,20 @@ def update_chain(chain_id):
     data = request.json
     conn = connect_db()
     cursor = conn.cursor()
-    cursor.execute("UPDATE Chain SET chainTitle=? WHERE chainID=?", (data['chainTitle'], chain_id))
+    cursor.execute("UPDATE Chains SET chainTitle=? WHERE chainID=?", (data['chainTitle'], chain_id))
     conn.commit()
     conn.close()
-    return jsonify({"message": "Chain updated successfully"})
+    return jsonify({"message": "Chains updated successfully"})
 
 # Delete Chain by ID
 @app.route('/api/chains/<int:chain_id>', methods=['DELETE'])
 def delete_chain(chain_id):
     conn = connect_db()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM Chain WHERE chainID=?", (chain_id,))
+    cursor.execute("DELETE FROM Chains WHERE chainID=?", (chain_id,))
     conn.commit()
     conn.close()
-    return jsonify({"message": "Chain deleted successfully"})
+    return jsonify({"message": "Chains deleted successfully"})
 
 # ------------------- ChainDetail Routes -------------------
 
@@ -346,16 +404,16 @@ def get_chaindetails():
     conn.close()
     return jsonify([row_to_dict(row) for row in chaindetails])
 
-# Select ChainDetail by ID
+# Select ChainDetail by ChainID
 @app.route('/api/chaindetails/<int:chaindetail_id>', methods=['GET'])
 def get_chaindetail(chaindetail_id):
     conn = connect_db()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM chainDetail WHERE chainDetailID=?", (chaindetail_id,))
-    chaindetail = cursor.fetchone()
+    cursor.execute("SELECT c.chainID, c.chainTitle, cd.chainDetailID, cd.verseFrom, cd.verseTo, cd.repeatCount, cd.sequenceNo FROM Chains c INNER JOIN chainsDetail cd ON c.chainID = cd.chainID and c.chainID = ? ORDER BY cd.sequenceNo ASC;", (chaindetail_id,))
+    chaindetail = cursor.fetchall()
     conn.close()
     if chaindetail:
-        return jsonify(row_to_dict(chaindetail))
+        return jsonify([row_to_dict(row) for row in chaindetail])
     else:
         return jsonify({"error": "ChainDetail not found"}), 404
 
@@ -400,4 +458,5 @@ def delete_chaindetail(chaindetail_id):
 
 
 if __name__ == '__main__':
+    #stop_port(5000)
     app.run(debug=True)
