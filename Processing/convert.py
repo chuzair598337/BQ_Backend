@@ -1,3 +1,4 @@
+
 import os
 import time
 
@@ -15,15 +16,8 @@ def convert_m4a_to_wav(input_file_path, output_file_path):
     isTrimmed = False
     try:
         audio = AudioSegment.from_file(input_file_path, format="m4a")
-        print(len(audio))
-        if len(audio) > 2000:
-            # Trim audio to approximately 1 second
-            new_audio = audio[-1600:-100]  # Trim last 1 second (1000 milliseconds)
-            isTrimmed = True
-        else:
-            new_audio = audio
-        # Export the trimmed audio to WAV format
-        new_audio.export(output_file_path, format="wav")
+        # Export the audio to WAV format
+        audio.export(output_file_path, format="wav")
         return True,isTrimmed, ""
     except Exception as e:
         return False,isTrimmed, str(e)
@@ -164,15 +158,19 @@ if __name__ == "__main__":
     # Record the start time
     start_time = time.time()
 
-    input_folder = "Dataset"
-    output_folder = "Dataset_Converted"
-    failure_folder = "Failure_Conversion"
-    success_folder = "Success_Conversion"
+    currentFilePath = os.path.dirname(__file__)
+    audio_folder = os.path.join(currentFilePath,'..',"VoicesToFilter")
+    ensure_directory_exists(audio_folder)
+
+    input_folder = os.path.join(currentFilePath,'..',"AllVoices")
+    output_folder = f"{audio_folder}/Dataset_Converted"
+    failure_folder = f"{audio_folder}/Failure_Conversion"
+    success_folder = f"{audio_folder}/Success_Conversion"
 
     # set files_to_process to zero if you want to process comolete folder
-    files_to_process = 5
+    files_to_process = 0
     # set No of files in each output set.
-    files_per_set = 5
+    files_per_set = 50
 
 
 
@@ -187,3 +185,4 @@ if __name__ == "__main__":
         print(f"Result : Successfully Completed in time {time_taken}...")
     else:
         print("Result : Failed ...")
+

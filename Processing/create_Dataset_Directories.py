@@ -156,15 +156,17 @@ commands = [
     "Volume"
 ]
 
-
 # main,Suras and Commands directory
-dataset_dir = 'Dataset'
+currentFilePath = os.path.dirname(__file__)
+dataset_dir = os.path.join(currentFilePath,'..',"Dataset")
 suras_dir = os.path.join(dataset_dir, 'suras')
 commands_dir = os.path.join(dataset_dir,'commands')
+others_dir = os.path.join(dataset_dir,'others')
 
 # Create the directories
 os.makedirs(suras_dir, exist_ok=True)
 os.makedirs(commands_dir, exist_ok=True)
+os.makedirs(others_dir, exist_ok=True)
 
 print("\n########### Suras ##############\n")
 

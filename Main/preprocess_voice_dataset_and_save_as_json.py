@@ -3,9 +3,21 @@ import librosa
 import os
 import json
 
-DATASET_PATH = "C:/Users/azaz/Desktop/processed dta/Data_wav"
-JSON_DATA_FILE = "Model_data/Preprocess_Json_file4.json"
+currentFilePath = os.path.dirname(__file__)
+#DATASET_PATH = os.path.join(currentFilePath,'..','Dataset')
+
+DATASET_PATH = os.path.join(currentFilePath,'..','Audio_Voices','Dataset_Converted')
+modalDir = os.path.join(currentFilePath,'Model_data')
+JSON_DATA_FILE = os.path.join(modalDir,"Preprocess_Json_file4.json")
 SAMPLE_TO_CONSIDER = 22050
+
+# Create directories if they don't exist
+os.makedirs(DATASET_PATH, exist_ok=True)
+os.makedirs(modalDir, exist_ok=True)
+
+# print(currentFilePath)
+# print(DATASET_PATH)
+# print(JSON_DATA_FILE)
 
 
 def pre_process_dataSet(dataset_path, json_dat_file, n_mfcc=13, hop_length=512, n_fft=2048):
@@ -25,11 +37,14 @@ def pre_process_dataSet(dataset_path, json_dat_file, n_mfcc=13, hop_length=512, 
         if dirpath is not dataset_path:
 
             category = dirpath.split("/")[-1]
+            print()
             data["mappings"].append(category)
             print(f"processing:{category}")
 
             for f in filenames:
 
+                if f == '.DS_Store':
+                    continue
 
                 file_path = os.path.join(dirpath, f)   #data1/down/down1.wav
                 signal, sr = librosa.load(path=file_path, mono=True)
@@ -52,5 +67,6 @@ def pre_process_dataSet(dataset_path, json_dat_file, n_mfcc=13, hop_length=512, 
 
 if __name__ == "__main__":
     pre_process_dataSet(DATASET_PATH, JSON_DATA_FILE)
+    print('done')
 
 

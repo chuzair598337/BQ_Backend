@@ -3,14 +3,15 @@ import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
+import os
 
+currentFilePath = os.path.dirname(__file__)
 DATA_PATH = "Model_data/Preprocess_Json_file4.json"
 SAVED_MODEL_PATH = "Model_data/model4.h5"
 EPOCHS = 15
 BATCH_SIZE = 32
 PATIENCE = 5
 LEARNING_RATE = 0.001
-
 
 def load_data(data_path):
 
