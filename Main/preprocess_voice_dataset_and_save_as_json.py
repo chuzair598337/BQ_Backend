@@ -6,7 +6,7 @@ import json
 currentFilePath = os.path.dirname(__file__)
 #DATASET_PATH = os.path.join(currentFilePath,'..','Dataset')
 
-DATASET_PATH = os.path.join(currentFilePath,'..','Audio_Voices','Dataset_Converted')
+DATASET_PATH = os.path.join(currentFilePath,'..','Audio_Voices','suras')
 modalDir = os.path.join(currentFilePath,'Model_data')
 JSON_DATA_FILE = os.path.join(modalDir,"Preprocess_Json_file4.json")
 SAMPLE_TO_CONSIDER = 22050
