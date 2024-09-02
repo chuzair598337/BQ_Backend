@@ -23,7 +23,7 @@ def predict():
 
     # invoke keyword_services
     kss = Keyword_Spotting_Service()
-
+    print(" KSS ",kss)
     # make prediction
     keyword, options, mffc = kss.predict(file_name)
     os.remove(file_name)

@@ -9,7 +9,7 @@ import tempfile
 
 temp_files = []
 
-SAVED_MODEL_PATH = "Model_data/model4.h5"
+SAVED_MODEL_PATH = "Mymodel1.h5"
 TEST_DATASET_PATH = "test_data/data/"
 SAMPLES_TO_CONSIDER = 22050
 
@@ -68,7 +68,6 @@ class _Keyword_Spotting_Service:
             temp_files.append(temp_file.name)
 
     def predict(self, file_path):
-
         # extract MFCC
         MFCCs = self.preprocess(file_path)
         predicted_words = []
@@ -153,5 +152,5 @@ def Keyword_Spotting_Service():
 
 if __name__ == "__main__":
     kss = Keyword_Spotting_Service()
-    print(kss.predict(f"C:/Users/azaz/Downloads/new1.ogg"))
+    print(kss.predict(f"Audio_Voices/Suras/Fatir/AUDIO-2024-07-16-17-35-33 2.wav"))
     # print(kss.predict(f"{TEST_DATASET_PATH}mix.aac"))
