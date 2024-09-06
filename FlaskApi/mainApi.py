@@ -17,7 +17,22 @@ def audio_to_text():
 
     if file:
         file_path = os.path.join("uploads", file.filename)
-        file.save(file_path)
+        # Check if the file already exists
+        if os.path.exists(file_path):
+            try:
+                # Remove the existing file
+                os.remove(file_path)
+                print("Existing file deleted successfully.")
+            except Exception as e:
+                print(f"Failed to delete existing file: {e}")
+                return
+
+        # Save the new file
+        try:
+            file.save(file_path)
+            print("File saved successfully.")
+        except Exception as e:
+            print(f"Failed to save file: {e}")
 
         # Load audio with librosa
         audio_data, sr_rate = librosa.load(file_path, sr=None)
