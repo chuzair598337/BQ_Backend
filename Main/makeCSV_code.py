@@ -2,7 +2,7 @@ import os
 import numpy as np
 import librosa
 import csv
-
+ 
 labels_dict = {
     'Al-Fatiha': 0, 'Al-Baqarah': 1, 'Aal-E-Imran': 2, 'An-Nisa': 3, 'Al-Maidah': 4, 'Al-Anam': 5,
     'Al-Araf': 6, 'Al-Anfal': 7, 'At-Tawbah': 8, 'Yunus': 9, 'Hud': 10, 'Yusuf': 11, 'Ar-Rad': 12, 'Ibrahim': 13,

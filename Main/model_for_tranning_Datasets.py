@@ -24,6 +24,8 @@ y = data['0']
 # Reshape the data
 num_samples = X.shape[0]
 num_features = X.shape[1]
+print(num_samples)
+print(num_features)
 X = np.reshape(X.values, (num_samples, 32, 44, 1))  # Reshaping to (num_samples, 32, 44, 1)
 y = tf.keras.utils.to_categorical(y, num_classes=114)  # 114 classes
 
@@ -37,19 +39,18 @@ X_train, X_validation, y_train, y_validation = train_test_split(X_train, y_train
 input_shape = (32, 44, 1)
 
 model = tf.keras.models.Sequential()
-
 # 1st conv layer
-model.add(tf.keras.layers.Conv2D(128, (5, 5), activation='relu', input_shape=input_shape, kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+model.add(tf.keras.layers.Conv2D(256, (5, 5), activation='relu', input_shape=input_shape, kernel_regularizer=tf.keras.regularizers.l2(0.001)))
 model.add(tf.keras.layers.BatchNormalization())
 model.add(tf.keras.layers.MaxPooling2D((2, 2), strides=(2, 2), padding='same'))
 
 # 2nd conv layer
-model.add(tf.keras.layers.Conv2D(256, (3, 3), activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+model.add(tf.keras.layers.Conv2D(256, (5, 5), activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
 model.add(tf.keras.layers.BatchNormalization())
 model.add(tf.keras.layers.MaxPooling2D((2, 2), strides=(2, 2), padding='same'))
 
 # 3rd conv layer
-model.add(tf.keras.layers.Conv2D(512, (3, 3), activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+model.add(tf.keras.layers.Conv2D(512, (5, 5), activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
 model.add(tf.keras.layers.BatchNormalization())
 model.add(tf.keras.layers.MaxPooling2D((2, 2), strides=(2, 2), padding='same'))
 
