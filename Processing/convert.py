@@ -162,7 +162,7 @@ if __name__ == "__main__":
     audio_folder = os.path.join(currentFilePath,'..',"VoicesToFilter")
     ensure_directory_exists(audio_folder)
 
-    input_folder = os.path.join(currentFilePath,'..',"AllVoices")
+    input_folder = os.path.join(currentFilePath,'..',"NewDataset")
     output_folder = f"{audio_folder}/Dataset_Converted"
     failure_folder = f"{audio_folder}/Failure_Conversion"
     success_folder = f"{audio_folder}/Success_Conversion"
