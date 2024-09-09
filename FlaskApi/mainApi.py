@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import librosa
 import speech_recognition as sr
 import os
+from AudioHandler import *
 
 app = Flask(__name__)
 
@@ -15,31 +16,23 @@ def audio_to_text():
     if file.filename == '':
         return "No selected file", 400
 
-    if file:
-        file_path = os.path.join("uploads", file.filename)
-        file.save(file_path)
+    # Save the audio file
+    m4a_file_path, success = save_audio(file)
+    if not success:
+        return "Failed to save file", 500
 
-        # Load audio with librosa
-        audio_data, sr_rate = librosa.load(file_path, sr=None)
+    # Convert audio to wav if necessary
+    if file.mimetype == "audio/m4a":
+        wav_file_path = convert_m4a_to_wav(m4a_file_path)
+        if not wav_file_path:
+            return "Failed to convert m4a to wav", 500
+    # add other formats here
 
-        # Convert audio to text using SpeechRecognition
-        recognizer = sr.Recognizer()
-        audio = sr.AudioFile(file_path)
 
-        with audio as source:
-            audio_content = recognizer.record(source)
 
-        try:
-            text = recognizer.recognize_google(audio_content)
-        except sr.UnknownValueError:
-            text = "Could not understand audio"
-        except sr.RequestError as e:
-            text = f"Could not request results; {e}"
+    result = processVoiceCommand(wav_file_path)
 
-        # Clean up the uploaded file
-        os.remove(file_path)
-
-        return jsonify({"text": text})
+    return jsonify({"text": result})
 
 
 if __name__ == '__main__':
