@@ -5,7 +5,26 @@ import librosa
 import speech_recognition as sr
 import shutil
 from pydub.silence import split_on_silence, detect_leading_silence
+import tensorflow as tf
+from Main.testing import labels_dict
+import numpy as np
+SAVED_MODEL_PATH = "D:\\GitHub\\BQ_Backend\\Main\\Mymodel1.h5"
 
+def extract_features(file_name):
+    # Load the audio file using librosa
+    y, sr = librosa.load(file_name, sr=None)
+
+    # Extract features (e.g., MFCCs, Chroma, Mel spectrogram, etc.)
+    # We'll extract 40 MFCCs (Mel-frequency cepstral coefficients)
+    mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=40)
+
+    # Flatten the MFCCs to create a single feature vector
+    mfccs_scaled = np.mean(mfccs.T, axis=0)
+
+    # Ensure we have 1408 features by resizing or padding
+    feature_vector = np.resize(mfccs_scaled, (1408,))
+
+    return feature_vector
 
 def cleanAudioFromStartandEnd(audio_segment, silence_thresh=-50.0, chunk_size=10):
     """
@@ -90,21 +109,48 @@ def save_audio(file):
         return None, False
 
 
-def convert_m4a_to_wav(m4a_file_path):
-    if os.path.exists(m4a_file_path):
-        wav_file_path = m4a_file_path.replace(".m4a", ".wav")
+# def convert_m4a_to_wav(m4a_file_path):
+#     if os.path.exists(m4a_file_path):
+#         wav_file_path = m4a_file_path.replace(".m4a", ".wav")
+#         try:
+#             audio = AudioSegment.from_file(m4a_file_path, format="m4a")
+#             # Export the audio to WAV format
+#             audio.export(wav_file_path, format="wav")
+#             # remove m4a file
+#             os.remove(m4a_file_path)
+#             return wav_file_path
+#         except Exception as e:
+#             print(f"Failed to convert file: {e}")
+#             return None
+#     else:
+#         print(f"m4a  not found at {m4a_file_path}")
+#         return None
+
+
+def convert_audio_to_wav(file_path):
+    # Extract file extension (e.g., "m4a", "ogg", "aac")
+    file_extension = file_path.split('.')[-1]
+
+    if os.path.exists(file_path):
+        # Define the new file path with a ".wav" extension
+        wav_file_path = file_path.replace(f".{file_extension}", ".wav")
+
         try:
-            audio = AudioSegment.from_file(m4a_file_path, format="m4a")
+            # Load the audio file in its original format
+            audio = AudioSegment.from_file(file_path, format=file_extension)
+
             # Export the audio to WAV format
             audio.export(wav_file_path, format="wav")
-            # remove m4a file
-            os.remove(m4a_file_path)
+
+            # Optionally, remove the original file
+            os.remove(file_path)
+
             return wav_file_path
         except Exception as e:
-            print(f"Failed to convert file: {e}")
+            print(f"Failed to convert {file_extension} file: {e}")
             return None
     else:
-        print(f"m4a  not found at {m4a_file_path}")
+        print(f"File not found at {file_path}")
         return None
 
 
@@ -151,20 +197,46 @@ def processVoiceCommand(wav_file_path):
         filtered_commands = commands
 
 
+    print("filtered commands :",filtered_commands)
 
 
 
     ############### Do Next Work below Here #########################################
-
+    # Load the pre-trained model
+    model = tf.keras.models.load_model(SAVED_MODEL_PATH)
     # Rough Work
     text = []
     for command in filtered_commands:
-        text.append(spechToTextOnline(command))
+        print("Commad inside loop :",command)
+        features = extract_features(command)
 
-    ############### Do  Next Work above this #########################################
+        # Reshape the features to match the model's expected input shape
+        features = np.reshape(features, (1, 1408, 1))  # (batch_size=1, 1408, 1)
+
+        print("Reshaped featureas  ",features)
+
+        # Predict using the model
+        result = model.predict(features)
+        predicted_index = int(np.argmax(result))
+
+        print("Predicted index :",predicted_index)
+
+        reverse_labels_dict = {v: k for k, v in labels_dict.items()}
+        predicted_label = reverse_labels_dict.get(predicted_index, 'Label not found')
+        print("Predicted label :", predicted_label)
+        text.append(predicted_label)
+
+    # text = []
+    # for command in filtered_commands:
+    #     text.append(spechToTextOnline(command))
+
+
+
+    ############### Do Next Work above this #########################################
 
     # remove converted wav file
     if os.path.exists(wav_file_path):
         os.remove(wav_file_path)
 
+    print("List of labels:  ",text)
     return text

@@ -8,13 +8,13 @@ import os
 # Constants
 DATA_PATH = "combined_data_resampled.csv"
 SAVED_MODEL_PATH = "Mymodel1.h5"
-EPOCHS = 30  # Increased number of epochs
-BATCH_SIZE = 32
-PATIENCE = 10  # Increased patience
-LEARNING_RATE = 0.0001  # Adjusted learning rate
-test_size = 0.2
-validation_size = 0.2
-loss = "categorical_crossentropy"
+EPOCHS = 30  # Number of epochs
+BATCH_SIZE = 32  # Batch size
+PATIENCE = 10  # Patience for early stopping
+LEARNING_RATE = 0.0001  # Learning rate
+test_size = 0.2  # Test set size
+validation_size = 0.2  # Validation set size
+loss = "categorical_crossentropy"  # Loss function
 
 # Load and prepare data
 data = pd.read_csv(DATA_PATH).astype('float32')
@@ -24,10 +24,13 @@ y = data['0']
 # Reshape the data
 num_samples = X.shape[0]
 num_features = X.shape[1]
-print(num_samples)
-print(num_features)
-X = np.reshape(X.values, (num_samples, 32, 44, 1))  # Reshaping to (num_samples, 32, 44, 1)
-y = tf.keras.utils.to_categorical(y, num_classes=114)  # 114 classes
+# print(num_samples)
+# print(num_features)
+# Reshape X for the CNN model
+X = np.reshape(X.values, (num_samples, num_features, 1))  # Reshaping to (num_samples, num_features, 1)
+
+# Convert labels to categorical
+y = tf.keras.utils.to_categorical(y, num_classes=16)  # 16 output classes
 
 print("Training sets loaded!")
 
@@ -35,39 +38,37 @@ print("Training sets loaded!")
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
 X_train, X_validation, y_train, y_validation = train_test_split(X_train, y_train, test_size=validation_size)
 
-# Define the CNN model
-input_shape = (32, 44, 1)
-
+# Define the CNN model for the dataset
 model = tf.keras.models.Sequential()
+
 # 1st conv layer
-model.add(tf.keras.layers.Conv2D(256, (5, 5), activation='relu', input_shape=input_shape, kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+model.add(tf.keras.layers.Conv1D(256, kernel_size=3, activation='relu', input_shape=(num_features, 1), padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
 model.add(tf.keras.layers.BatchNormalization())
-model.add(tf.keras.layers.MaxPooling2D((2, 2), strides=(2, 2), padding='same'))
+model.add(tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'))
 
 # 2nd conv layer
-model.add(tf.keras.layers.Conv2D(256, (5, 5), activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+model.add(tf.keras.layers.Conv1D(512, kernel_size=3, activation='relu', padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
 model.add(tf.keras.layers.BatchNormalization())
-model.add(tf.keras.layers.MaxPooling2D((2, 2), strides=(2, 2), padding='same'))
+model.add(tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'))
 
 # 3rd conv layer
-model.add(tf.keras.layers.Conv2D(512, (5, 5), activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+model.add(tf.keras.layers.Conv1D(1024, kernel_size=3, activation='relu', padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
 model.add(tf.keras.layers.BatchNormalization())
-model.add(tf.keras.layers.MaxPooling2D((2, 2), strides=(2, 2), padding='same'))
-
+model.add(tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'))
 
 # Flatten the output and feed into dense layers
 model.add(tf.keras.layers.Flatten())
-model.add(tf.keras.layers.Dense(1024, activation='relu'))  # Increased number of units
+model.add(tf.keras.layers.Dense(1024, activation='relu'))  # Dense layer with 512 units
 model.add(tf.keras.layers.Dropout(0.5))
 
-# Output layer with 114 classes
-model.add(tf.keras.layers.Dense(114, activation='softmax'))
+# Output layer with 16 classes
+model.add(tf.keras.layers.Dense(16, activation='softmax'))
 
 # Compile the model
 optimiser = tf.keras.optimizers.Adam(learning_rate=LEARNING_RATE)
 model.compile(optimizer=optimiser, loss=loss, metrics=["accuracy"])
 
-# Print model parameters on console
+# Print model summary
 model.summary()
 
 # Early stopping callback
@@ -102,7 +103,7 @@ def plot_history(history):
 # Plot the training history
 plot_history(history)
 
-# Evaluate network on test set
+# Evaluate the network on the test set
 test_loss, test_acc = model.evaluate(X_test, y_test)
 print("\nTest loss: {}, test accuracy: {}".format(test_loss, 100 * test_acc))
 
