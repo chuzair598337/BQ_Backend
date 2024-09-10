@@ -6,7 +6,6 @@ import speech_recognition as sr
 import shutil
 from pydub.silence import split_on_silence, detect_leading_silence
 import tensorflow as tf
-from Main.testing import labels_dict
 import numpy as np
 SAVED_MODEL_PATH = "D:\\GitHub\\BQ_Backend\\Main\\Mymodel1.h5"
 
