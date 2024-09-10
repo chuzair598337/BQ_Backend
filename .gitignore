@@ -5,9 +5,18 @@
 *.m4a
 *.wav
 *.mp3
+*.h5
 AllVoices/
 Dataset_Origonal/
 Dataset/
+NewDataset/
+NewNewDataset/
+VoicesToFilter/
+VoicesToFilter_old/
+VoicesToFilter_old2
+desktop.ini
+*.rar
+*.zip
 
 
 
