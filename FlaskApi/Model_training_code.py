@@ -6,8 +6,6 @@ from sklearn.model_selection import train_test_split
 import os
 
 # Constants
-DATA_PATH = "combined_data_resampled.csv"
-SAVED_MODEL_PATH = "Mymodel1.h5"
 EPOCHS = 30  # Number of epochs
 BATCH_SIZE = 32  # Batch size
 PATIENCE = 10  # Patience for early stopping
@@ -16,12 +14,17 @@ test_size = 0.2  # Test set size
 validation_size = 0.2  # Validation set size
 loss = "categorical_crossentropy"  # Loss function
 
+currentFilePath = os.path.dirname(__file__)
+data_Folder = os.path.join(currentFilePath,"Data")
+data_path = os.path.join(data_Folder,"combined_data_resampled.csv")
+model_path = os.path.join(data_Folder,"STT_Model.keras")
+
 # Load and prepare data
-data = pd.read_csv(DATA_PATH).astype('float32')
+data = pd.read_csv(data_path).astype('float32')
 X = data.drop('0', axis=1)  # Assuming '0' is the label column
 y = data['0']
 
-# Reshape the data
+# Reshape the data for the CNN model
 num_samples = X.shape[0]
 num_features = X.shape[1]
 # print(num_samples)
@@ -108,4 +111,4 @@ test_loss, test_acc = model.evaluate(X_test, y_test)
 print("\nTest loss: {}, test accuracy: {}".format(test_loss, 100 * test_acc))
 
 # Save the trained model
-model.save(SAVED_MODEL_PATH)
+model.save(model_path)

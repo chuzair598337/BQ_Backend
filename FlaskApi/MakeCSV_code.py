@@ -13,10 +13,10 @@ target_samples = 22050  # Example target number of samples
 # Create a single CSV file for all data
 
 currentFilePath = os.path.dirname(__file__)
-output_dir = "Data"
-output_file = os.path.join(currentFilePath,output_dir,"combined_data_resampled.csv")
-if not os.path.exists(output_dir):
-    os.makedirs(output_dir)
+data_Folder = os.path.join(currentFilePath,"Data")
+output_file = os.path.join(data_Folder,"combined_data_resampled.csv")
+if not os.path.exists(data_Folder):
+    os.makedirs(data_Folder)
 
 with open(output_file, 'w', newline='') as csvfile:
     writer = csv.writer(csvfile)
@@ -33,7 +33,11 @@ with open(output_file, 'w', newline='') as csvfile:
                 if filename.endswith('.wav'):
                     # Prepare to process each .wav file
                     file_path = os.path.join(root, filename)
-                    y, sr = librosa.load(file_path, sr=None)
+                    try:
+                        y, sr = librosa.load(file_path, sr=None)
+                    except Exception as e:
+                        print(f"Error loading {filename}: {e}")
+                        continue
 
                     # Resample the audio to the target number of samples
                     if len(y) != target_samples:
