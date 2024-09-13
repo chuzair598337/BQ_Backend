@@ -7,7 +7,7 @@ import os
 
 # Constants
 EPOCHS = 30  # Number of epochs
-BATCH_SIZE = 32  # Batch size
+BATCH_SIZE = 4  # Batch size
 PATIENCE = 10  # Patience for early stopping
 LEARNING_RATE = 0.0001  # Learning rate
 test_size = 0.2  # Test set size
@@ -85,6 +85,13 @@ history = model.fit(X_train,
                     validation_data=(X_validation, y_validation),
                     callbacks=[earlystop_callback])
 
+# Evaluate the network on the test set
+test_loss, test_acc = model.evaluate(X_test, y_test)
+print("\nTest loss: {}, test accuracy: {}".format(test_loss, 100 * test_acc))
+
+# Save the trained model
+model.save(model_path)
+
 # Function to plot training history
 def plot_history(history):
     fig, axs = plt.subplots(2)
@@ -105,10 +112,3 @@ def plot_history(history):
 
 # Plot the training history
 plot_history(history)
-
-# Evaluate the network on the test set
-test_loss, test_acc = model.evaluate(X_test, y_test)
-print("\nTest loss: {}, test accuracy: {}".format(test_loss, 100 * test_acc))
-
-# Save the trained model
-model.save(model_path)

@@ -23,11 +23,15 @@ def audio_Prediction():
     if not success:
         return "Failed to save file", 500
 
-    # Convert audio to wav if necessary
-    wav_file_path = convert_audio_to_wav(file_path)
-    if not wav_file_path:
-        return "Failed to convert your file formate to wav", 500
-    # add other formats here
+    # Check content type and convert if necessary
+    allowed_wav_formats = ['audio/vnd.wave', 'audio/wav', 'audio/wave', 'audio/x-wav']
+
+    if file.content_type not in allowed_wav_formats:
+        wav_file_path = convert_audio_to_wav(file_path)
+        if not wav_file_path:
+            return "Failed to convert your file format to wav", 500
+    else:
+        wav_file_path = file_path
 
 
 
