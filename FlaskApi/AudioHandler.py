@@ -8,16 +8,28 @@ from pydub.silence import split_on_silence, detect_leading_silence
 import tensorflow as tf
 import numpy as np
 
-labels_dict = {
-    'Al-Falaq': 0, 'Al-Fatiha': 1, 'Al-Ikhlas': 2, 'An-Nas': 3, 'Ar-Rahman': 4,'Maryam':5,'Muhammad':6,
-    'Next':7,'Pause':8,'Play':9,'Previous':10,'Ya-Sin':11,'Yusuf':12,'Al-Kafirun':13,'GoTo':14,'Repeat':15
-}
+from globalVariables import *
 
-data_Folder = "Data"
-model_path = os.path.join(data_Folder,"STT_Model.keras")
-def extract_features(file_name):
-    # Load the audio file using librosa
-    y, sr = librosa.load(file_name, sr=None)
+model_path = os.path.join(data_Folder,ModelName)
+
+# def extract_features(file_name):
+#     # Load the audio file using librosa
+#     y, sr = librosa.load(file_name, sr=None)
+#
+#     # Extract features (e.g., MFCCs, Chroma, Mel spectrogram, etc.)
+#     # We'll extract 40 MFCCs (Mel-frequency cepstral coefficients)
+#     mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=40)
+#
+#     # Flatten the MFCCs to create a single feature vector
+#     mfccs_scaled = np.mean(mfccs.T, axis=0)
+#
+#     # Ensure we have 1408 features by resizing or padding
+#     feature_vector = np.resize(mfccs_scaled, (1408,))
+#
+#     return feature_vector
+
+def extract_features(file_path):
+    y, sr = librosa.load(file_path, sr=None)
 
     # Extract features (e.g., MFCCs, Chroma, Mel spectrogram, etc.)
     # We'll extract 40 MFCCs (Mel-frequency cepstral coefficients)
@@ -222,8 +234,6 @@ def processVoiceCommand(wav_file_path):
 
         # Predict using the model
         result = model.predict(features)
-        print(result)
-        print(len(result))
         predicted_index = int(np.argmax(result))
 
         print("Predicted index :",predicted_index)

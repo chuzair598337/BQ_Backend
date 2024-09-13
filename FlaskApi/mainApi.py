@@ -3,7 +3,7 @@ import librosa
 # import speech_recognition as sr
 import os
 from AudioHandler import *
-
+from globalVariables import *
 
 
 app = Flask(__name__)
@@ -41,6 +41,6 @@ def audio_Prediction():
 
 
 if __name__ == '__main__':
-    if not os.path.exists("uploads"):
-        os.makedirs("uploads")
+    if not os.path.exists(ApiUpload):
+        os.makedirs(ApiUpload)
     app.run(host='0.0.0.0', port=8080)
