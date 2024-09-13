@@ -6,9 +6,10 @@ import speech_recognition as sr
 import shutil
 from pydub.silence import split_on_silence, detect_leading_silence
 import tensorflow as tf
-from Main.testing import labels_dict
 import numpy as np
-SAVED_MODEL_PATH = "D:\\GitHub\\BQ_Backend\\Main\\Mymodel1.h5"
+from AudioQuran.MakeCSV_code import labels_dict
+
+SAVED_MODEL_PATH = "D:\\GitHub\\BQ_Backend\\AudioQuran\\model5.h5"
 
 def extract_features(file_name):
     # Load the audio file using librosa
@@ -217,6 +218,8 @@ def processVoiceCommand(wav_file_path):
 
         # Predict using the model
         result = model.predict(features)
+        print(result)
+        print(len(result))
         predicted_index = int(np.argmax(result))
 
         print("Predicted index :",predicted_index)

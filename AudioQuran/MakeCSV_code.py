@@ -4,8 +4,8 @@ import librosa
 import csv
 
 labels_dict = {
-    'Al-Falaq': 0, 'Al-Fatiha': 1, 'Al-Ikhlas': 2, 'An-Nas': 3, 'Ar-Rahman': 4,'Maryam':5,'Muhammad':6,
-    'Next':7,'Pause':8,'Play':9,'Previous':10,'Ya-Sin':11,'Yusuf':12,'Al-Kafirun':13,'GoTo':14,'Repeat':15
+    'Al-Falaq': 0, 'Al-Fatiha': 1, 'Al-Ikhlas': 2, 'An-Nas': 3, 'Ar-Rahman': 4, 'Maryam':5, 'Muhammad':6,
+    'Next':7, 'Pause':8, 'Play':9, 'Previous':10, 'Ya-Sin':11, 'Yusuf':12, 'Al-Kafirun':13, 'GoTo':14, 'Repeat':15
 }
 
 # Desired number of samples for resampling

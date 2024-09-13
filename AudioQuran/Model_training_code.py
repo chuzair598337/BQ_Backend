@@ -7,9 +7,9 @@ import os
 
 # Constants
 DATA_PATH = "combined_data_resampled.csv"
-SAVED_MODEL_PATH = "Mymodel1.h5"
-EPOCHS = 30  # Number of epochs
-BATCH_SIZE = 32  # Batch size
+SAVED_MODEL_PATH = "model5.h5"
+EPOCHS = 10  # Number of epochs
+BATCH_SIZE = 8  # Batch size
 PATIENCE = 10  # Patience for early stopping
 LEARNING_RATE = 0.0001  # Learning rate
 test_size = 0.2  # Test set size
@@ -42,23 +42,23 @@ X_train, X_validation, y_train, y_validation = train_test_split(X_train, y_train
 model = tf.keras.models.Sequential()
 
 # 1st conv layer
-model.add(tf.keras.layers.Conv1D(256, kernel_size=3, activation='relu', input_shape=(num_features, 1), padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+model.add(tf.keras.layers.Conv1D(256, kernel_size=5, activation='relu', input_shape=(num_features, 1), padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
 model.add(tf.keras.layers.BatchNormalization())
 model.add(tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'))
 
 # 2nd conv layer
-model.add(tf.keras.layers.Conv1D(512, kernel_size=3, activation='relu', padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+model.add(tf.keras.layers.Conv1D(512, kernel_size=5, activation='relu', padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
 model.add(tf.keras.layers.BatchNormalization())
 model.add(tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'))
 
 # 3rd conv layer
-model.add(tf.keras.layers.Conv1D(1024, kernel_size=3, activation='relu', padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+model.add(tf.keras.layers.Conv1D(1024, kernel_size=5, activation='relu', padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
 model.add(tf.keras.layers.BatchNormalization())
 model.add(tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'))
 
 # Flatten the output and feed into dense layers
 model.add(tf.keras.layers.Flatten())
-model.add(tf.keras.layers.Dense(1024, activation='relu'))  # Dense layer with 512 units
+model.add(tf.keras.layers.Dense(1024, activation='relu'))  # Dense layer with 1024 units
 model.add(tf.keras.layers.Dropout(0.5))
 
 # Output layer with 16 classes

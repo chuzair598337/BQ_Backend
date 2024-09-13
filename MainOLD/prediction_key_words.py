@@ -9,7 +9,7 @@ import tempfile
 
 temp_files = []
 
-SAVED_MODEL_PATH = "C:/Users/azaz/PycharmProjects/fyp_backend/Model_data/model4.h5"
+SAVED_MODEL_PATH = "D:\\GitHub\\BQ_Backend\\MainOLD\\model5.h5"
 TEST_DATASET_PATH = "test_data/data/"
 SAMPLES_TO_CONSIDER = 22050
 
