@@ -5,33 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f1ed3b74-59e5-4e36-b806-1a73e73dd51e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/AllVoices.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Audio_Voices/Suras/Al-Falaq/desktop.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Audio_Voices/Suras/Al-Ikhlas/desktop.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Audio_Voices/Suras/Ar-Rahman/desktop.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Audio_Voices/Suras/Maryam/desktop.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Audio_Voices/Suras/Muhammad/desktop.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Audio_Voices/Suras/Yusuf/desktop.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Audio_Voices/suras/Al-Fatiha/desktop.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Audio_Voices/suras/An-Nas/desktop.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Audio_Voices/suras/Pause/desktop.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FlaskApi/Data/combined_data_resampled.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FlaskApi/deleteit.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MainOLD.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/BQ_Backend.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AudioQuran/MakeCSV_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/FlaskApi/MakeCSV_code.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AudioQuran/Model_training_code.py" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/FlaskApi/globalVariables.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FlaskApi/AudioHandler.py" beforeDir="false" afterPath="$PROJECT_DIR$/FlaskApi/AudioHandler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FlaskApi/MakeCSV_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/FlaskApi/MakeCSV_code.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FlaskApi/Model_training_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/FlaskApi/Model_training_code.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FlaskApi/deleteit.py" beforeDir="false" afterPath="$PROJECT_DIR$/FlaskApi/deleteit.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FlaskApi/mainApi.py" beforeDir="false" afterPath="$PROJECT_DIR$/FlaskApi/mainApi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Processing/convert.py" beforeDir="false" afterPath="$PROJECT_DIR$/Processing/convert.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,36 +34,39 @@
   &quot;associatedIndex&quot;: 2
 }</component>
   <component name="ProjectId" id="2lKd86bT3QTQvJFQBlwqX1SK9qS" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.AudioHandler.executor": "Run",
-    "Python.Dummyserver.executor": "Debug",
-    "Python.MakeCSV_code.executor": "Run",
-    "Python.Model_training_code.executor": "Run",
-    "Python.Testing_model_training.executor": "Run",
-    "Python.dummy (1).executor": "Run",
-    "Python.dummy.executor": "Run",
-    "Python.dummyCode.executor": "Run",
-    "Python.mainApi.executor": "Run",
-    "Python.makeCSV_code.executor": "Run",
-    "Python.model_for_tranning_Datasets.executor": "Run",
-    "Python.model_train_using_cnn.executor": "Run",
-    "Python.prediction_key_words.executor": "Run",
-    "Python.preprocess_voice_dataset_and_save_as_json.executor": "Run",
-    "Python.server.executor": "Run",
-    "Python.serverTesting.executor": "Run",
-    "Python.testing.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "Merging rubab",
-    "last_opened_file_path": "D:/GitHub/BQ_Backend/MainOLD"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.AudioHandler.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Dummyserver.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.MakeCSV_code.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Model_training_code.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Testing_model_training.executor&quot;: &quot;Run&quot;,
+    &quot;Python.dummy (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.dummy.executor&quot;: &quot;Run&quot;,
+    &quot;Python.dummyCode.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mainApi.executor&quot;: &quot;Run&quot;,
+    &quot;Python.makeCSV_code.executor&quot;: &quot;Run&quot;,
+    &quot;Python.model_for_tranning_Datasets.executor&quot;: &quot;Run&quot;,
+    &quot;Python.model_train_using_cnn.executor&quot;: &quot;Run&quot;,
+    &quot;Python.prediction_key_words.executor&quot;: &quot;Run&quot;,
+    &quot;Python.preprocess_voice_dataset_and_save_as_json.executor&quot;: &quot;Run&quot;,
+    &quot;Python.server.executor&quot;: &quot;Run&quot;,
+    &quot;Python.serverTesting.executor&quot;: &quot;Run&quot;,
+    &quot;Python.testing.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Merging rubab&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/GitHub/BQ_Backend/MainOLD&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\GitHub\BQ_Backend\MainOLD" />
