@@ -8,6 +8,9 @@
 AllVoices/
 Dataset_Origonal/
 Dataset/
+# Model
+*.h5
+*.keras
 
 
 
