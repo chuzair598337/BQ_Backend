@@ -8,29 +8,52 @@ from pydub.silence import split_on_silence, detect_leading_silence
 import tensorflow as tf
 import numpy as np
 
-labels_dict = {
-    'Al-Falaq': 0, 'Al-Fatiha': 1, 'Al-Ikhlas': 2, 'An-Nas': 3, 'Ar-Rahman': 4,'Maryam':5,'Muhammad':6,
-    'Next':7,'Pause':8,'Play':9,'Previous':10,'Ya-Sin':11,'Yusuf':12,'Al-Kafirun':13,'GoTo':14,'Repeat':15
-}
+from globalVariables import *
 
-data_Folder = "Data"
-model_path = os.path.join(data_Folder,"STT_Model.keras")
+model_path = os.path.join(data_Folder,ModelName)
 
-def extract_features(file_name):
-    # Load the audio file using librosa
-    y, sr = librosa.load(file_name, sr=None)
+# def extract_features(file_name):
+#     # Load the audio file using librosa
+#     y, sr = librosa.load(file_name, sr=None)
+#
+#     # Extract features (e.g., MFCCs, Chroma, Mel spectrogram, etc.)
+#     # We'll extract 40 MFCCs (Mel-frequency cepstral coefficients)
+#     mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=40)
+#
+#     # Flatten the MFCCs to create a single feature vector
+#     mfccs_scaled = np.mean(mfccs.T, axis=0)
+#
+#     # Ensure we have 1408 features by resizing or padding
+#     feature_vector = np.resize(mfccs_scaled, (1408,))
+#
+#     return feature_vector
 
-    # Extract features (e.g., MFCCs, Chroma, Mel spectrogram, etc.)
-    # We'll extract 40 MFCCs (Mel-frequency cepstral coefficients)
-    mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=40)
+def extract_features(file_path):
+    y, sr = librosa.load(file_path, sr=None)
 
-    # Flatten the MFCCs to create a single feature vector
-    mfccs_scaled = np.mean(mfccs.T, axis=0)
+    # Resample the audio to the target number of samples
+    if len(y) != target_samples:
+        y = librosa.resample(y, orig_sr=sr, target_sr=target_samples * sr // len(y))
 
-    # Ensure we have 1408 features by resizing or padding
-    feature_vector = np.resize(mfccs_scaled, (1408,))
+    # Extract MFCCs
+    mfccs = librosa.feature.mfcc(y=y, sr=target_samples, n_mfcc=13)
 
-    return feature_vector
+    # Extract Chroma features
+    chroma = librosa.feature.chroma_stft(y=y, sr=target_samples)
+
+    # Extract Spectral Contrast
+    spectral_contrast = librosa.feature.spectral_contrast(y=y, sr=target_samples)
+
+    # Flatten the features into a single array
+    features = np.concatenate((mfccs.flatten(), chroma.flatten(), spectral_contrast.flatten()))
+
+    # Reshape to match the input shape of the model
+    features = features.reshape(1, -1)
+
+    # Reshape to fit the model's expected input shape
+    features = features.reshape(1, features.shape[1], 1)
+
+    return features
 
 def cleanAudioFromStartandEnd(audio_segment, silence_thresh=-50.0, chunk_size=10):
     """
@@ -106,7 +129,7 @@ def split_audio_on_silence(audio, min_silence_len=500, silence_thresh=-40, outpu
 
 
 def save_audio(file):
-    file_path = os.path.join("uploads", file.filename)
+    file_path = os.path.join(ApiUpload, file.filename)
     try:
         file.save(file_path)
         return file_path, True

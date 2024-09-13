@@ -4,6 +4,7 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 import os
+from globalVariables import *
 
 # Constants
 EPOCHS = 30  # Number of epochs
@@ -15,9 +16,9 @@ validation_size = 0.2  # Validation set size
 loss = "categorical_crossentropy"  # Loss function
 
 currentFilePath = os.path.dirname(__file__)
-data_Folder = os.path.join(currentFilePath,"Data")
-data_path = os.path.join(data_Folder,"combined_data_resampled.csv")
-model_path = os.path.join(data_Folder,"STT_Model.keras")
+data_Folder = os.path.join(currentFilePath,data_Folder)
+data_path = os.path.join(data_Folder,featuresFile)
+model_path = os.path.join(data_Folder,ModelName)
 
 # Load and prepare data
 data = pd.read_csv(data_path).astype('float32')

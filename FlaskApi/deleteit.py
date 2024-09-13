@@ -3,27 +3,19 @@ import numpy as np
 import librosa
 import tensorflow as tf
 from flask import Flask, request, jsonify
+from globalVariables import *
 from sklearn.preprocessing import StandardScaler
 import pickle
+
 
 app = Flask(__name__)
 
 # Paths to your model and scaler
 currentFilePath = os.path.dirname(__file__)
-data_Folder = "Data"
-model_path = os.path.join(currentFilePath, data_Folder, "STT_Model.keras")
+model_path = os.path.join(currentFilePath, data_Folder, ModelName)
 
 # Load the trained model and scaler
 model = tf.keras.models.load_model(model_path)
-
-
-# Labels dictionary
-labels_dict = {
-    0: 'Al-Falaq', 1: 'Al-Fatiha', 2: 'Al-Ikhlas', 3: 'An-Nas', 4: 'Ar-Rahman',
-    5: 'Maryam', 6: 'Muhammad', 7: 'Next', 8: 'Pause', 9: 'Play',
-    10: 'Previous', 11: 'Ya-Sin', 12: 'Yusuf', 13: 'Al-Kafirun',
-    14: 'GoTo', 15: 'Repeat'
-}
 
 # Desired number of samples for resampling
 target_samples = 22050  # Example target number of samples
