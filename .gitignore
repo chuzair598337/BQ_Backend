@@ -12,6 +12,12 @@ Dataset/
 *.h5
 *.keras
 
+*.zip
+*.rar
+
+desktop.ini
+
+
 
 
 
