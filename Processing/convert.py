@@ -159,10 +159,10 @@ if __name__ == "__main__":
     start_time = time.time()
 
     currentFilePath = os.path.dirname(__file__)
-    audio_folder = os.path.join(currentFilePath,'..',"split")
+    audio_folder = os.path.join(currentFilePath,'..',"NewVoicesToFilter")
     ensure_directory_exists(audio_folder)
 
-    input_folder = os.path.join(currentFilePath,'..',"split")
+    input_folder = os.path.join(currentFilePath,'..',"Archive")
     output_folder = f"{audio_folder}/Dataset_Converted"
     failure_folder = f"{audio_folder}/Failure_Conversion"
     success_folder = f"{audio_folder}/Success_Conversion"
