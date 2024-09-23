@@ -37,8 +37,9 @@ CORS(app)
 # Set the database path relative to the current file location
 DataFolder = os.path.join(os.path.dirname(__file__), '..', 'Data')
 database = os.path.join(DataFolder, 'database', 'BQ_Database.db')
-tilwatAudios = os.path.join(DataFolder, 'Al-Afasy')
-#tilwatAudios = os.path.join(DataFolder, 'Tilawat')
+#tilwatAudios = os.path.join(DataFolder, 'Al-Afasy')
+tilwatAudios = os.path.join(DataFolder, 'Tilawat')
+bayanAudios = os.path.join(DataFolder, 'Dr-Israr')
 
 
 # print(tilwatAudios)
@@ -130,7 +131,7 @@ def delete_surah(surah_id):
     conn.close()
     return jsonify({"message": "Surah deleted successfully"})
 
-# get List of audios and pick from folder in api side and return
+# get List of tilawat audios and pick from folder in api side and return
 @app.route('/api/surahtilawataudios/<int:surah_id>', methods=['GET'])
 def surah_tilawat_audios(surah_id):
     conn = connect_db()
@@ -159,9 +160,49 @@ def surah_tilawat_audios(surah_id):
     # Return the list of audio files with their status
     return jsonify(audio_files)
 
+# get List of bayan audios and pick from folder in api side and return
+@app.route('/api/surahbayanaudios/<int:surah_id>', methods=['GET'])
+def surah_bayan_audios(surah_id):
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    # Fetch verse file names for the specified surah ID
+    cursor.execute("SELECT verseFileName FROM Bayans WHERE surahID=? ORDER BY verseFrom ASC", (surah_id,))
+    surahs = cursor.fetchall()
+
+    conn.close()
+
+    # Prepare a list to store the results
+    audio_files = []
+
+    for row in surahs:
+        filename = row['verseFileName']
+        filename = filename.strip()
+        file_path = os.path.join(bayanAudios, filename)
+
+        # Check if the file exists
+        if os.path.exists(file_path):
+            audio_files.append({"verseFileName": filename, "found": True})
+        else:
+            audio_files.append({"verseFileName": filename, "found": False})
+
+    # Return the list of audio files with their status
+    return jsonify(audio_files)
+
 @app.route('/api/surahtilawataudios/file/<filename>', methods=['GET'])
-def get_audio_file(filename):
+def get_tilawat_audio_file(filename):
     file_path = os.path.join(tilwatAudios, filename)
+
+    # Check if the file exists
+    if os.path.exists(file_path):
+        return send_file(file_path, as_attachment=False, mimetype='audio/mpeg')
+    else:
+        return jsonify({"error": "Audio not found"}), 404
+
+
+@app.route('/api/surahbayanaudios/file/<filename>', methods=['GET'])
+def get_bayan_audio_file(filename):
+    file_path = os.path.join(bayanAudios, filename)
 
     # Check if the file exists
     if os.path.exists(file_path):
