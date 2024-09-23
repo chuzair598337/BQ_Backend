@@ -14,11 +14,14 @@ LEARNING_RATE = 0.0001  # Learning rate
 test_size = 0.2  # Test set size
 validation_size = 0.2  # Validation set size
 loss = "categorical_crossentropy"  # Loss function
-
+labels_dict = {
+    'Al-Falaq': 0, 'Al-Fatiha': 1, 'Al-Ikhlas': 2, 'An-Nas': 3, 'Ar-Rahman': 4,'Maryam':5,'Muhammad':6,
+    'Next':7,'Pause':8,'Play':9,'Previous':10,'Ya-Sin':11,'Yusuf':12,'Al-Kafirun':13,'GoTo':14,'Repeat':15
+}
 currentFilePath = os.path.dirname(__file__)
-data_Folder = os.path.join(currentFilePath,data_Folder)
-data_path = os.path.join(data_Folder,featuresFile)
-model_path = os.path.join(data_Folder,ModelName)
+data_Folder = os.path.join(currentFilePath,"Data")
+data_path = os.path.join(data_Folder,"features.csv")
+model_path = os.path.join(data_Folder,"STT_Model.h5")
 
 # Load and prepare data
 data = pd.read_csv(data_path).astype('float32')
@@ -46,23 +49,23 @@ X_train, X_validation, y_train, y_validation = train_test_split(X_train, y_train
 model = tf.keras.models.Sequential()
 
 # 1st conv layer
-model.add(tf.keras.layers.Conv1D(256, kernel_size=3, activation='relu', input_shape=(num_features, 1), padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+model.add(tf.keras.layers.Conv1D(256, kernel_size=5, activation='relu', input_shape=(num_features, 1), padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
 model.add(tf.keras.layers.BatchNormalization())
 model.add(tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'))
 
 # 2nd conv layer
-model.add(tf.keras.layers.Conv1D(512, kernel_size=3, activation='relu', padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+model.add(tf.keras.layers.Conv1D(512, kernel_size=5, activation='relu', padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
 model.add(tf.keras.layers.BatchNormalization())
 model.add(tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'))
 
 # 3rd conv layer
-model.add(tf.keras.layers.Conv1D(1024, kernel_size=3, activation='relu', padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
+model.add(tf.keras.layers.Conv1D(1024, kernel_size=5, activation='relu', padding='same', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
 model.add(tf.keras.layers.BatchNormalization())
 model.add(tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'))
 
 # Flatten the output and feed into dense layers
 model.add(tf.keras.layers.Flatten())
-model.add(tf.keras.layers.Dense(1024, activation='relu'))  # Dense layer with 512 units
+model.add(tf.keras.layers.Dense(1024, activation='relu'))  # Dense layer with 1024 units
 model.add(tf.keras.layers.Dropout(0.5))
 
 # Output layer with 16 classes

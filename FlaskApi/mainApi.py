@@ -33,23 +33,11 @@ def audio_Prediction():
     else:
         wav_file_path = file_path
 
+    print(wav_file_path)
 
+    result = processVoiceCommand(wav_file_path)
 
-    #result = processVoiceCommand(wav_file_path)
-
-    result = [
-        {"key1": "Play"},
-        {"key1": "Pause"},
-        {"key1": "Repeat"},
-        {"key1": "Next"},
-        {"key1": "Previous"},
-        {"key1": "Play", "key2": "sura"}
-    ]
-
-
-    # return jsonify({"text": result})
-    return jsonify(result[0])
-
+    return jsonify({"result":result})
 
 if __name__ == '__main__':
     if not os.path.exists(ApiUpload):
