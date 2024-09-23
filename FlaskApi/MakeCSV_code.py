@@ -2,7 +2,6 @@ import os
 import numpy as np
 import librosa
 import csv
-from globalVariables import *
 
 target_samples = 22050
 labels_dict = {
