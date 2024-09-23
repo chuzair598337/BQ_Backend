@@ -10,7 +10,7 @@ import numpy as np
 
 from globalVariables import *
 
-model_path = os.path.join(data_Folder,ModelName)
+model_path = os.path.join("Data","STT_Model.h5")
 
 # def extract_features(file_name):
 #     # Load the audio file using librosa
@@ -28,20 +28,62 @@ model_path = os.path.join(data_Folder,ModelName)
 #
 #     return feature_vector
 
+# def extract_features(file_path):
+#     y, sr = librosa.load(file_path, sr=None)
+#
+#     # Extract features (e.g., MFCCs, Chroma, Mel spectrogram, etc.)
+#     # We'll extract 40 MFCCs (Mel-frequency cepstral coefficients)
+#     mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=40)
+#
+#     # Flatten the MFCCs to create a single feature vector
+#     mfccs_scaled = np.mean(mfccs.T, axis=0)
+#
+#     # Ensure we have 1408 features by resizing or padding
+#     feature_vector = np.resize(mfccs_scaled, (1408,))
+#
+#     return feature_vector
+
+
 def extract_features(file_path):
     y, sr = librosa.load(file_path, sr=None)
 
-    # Extract features (e.g., MFCCs, Chroma, Mel spectrogram, etc.)
-    # We'll extract 40 MFCCs (Mel-frequency cepstral coefficients)
-    mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=40)
+    # Resample the audio to the target number of samples
+    if len(y) != target_samples:
+        y = librosa.resample(y, orig_sr=sr, target_sr=target_samples * sr // len(y))
 
-    # Flatten the MFCCs to create a single feature vector
-    mfccs_scaled = np.mean(mfccs.T, axis=0)
+    # Extract MFCCs
+    mfccs = librosa.feature.mfcc(y=y, sr=target_samples, n_mfcc=13)
 
-    # Ensure we have 1408 features by resizing or padding
-    feature_vector = np.resize(mfccs_scaled, (1408,))
+    # Extract Chroma features
+    chroma = librosa.feature.chroma_stft(y=y, sr=target_samples)
 
-    return feature_vector
+    # Extract Spectral Contrast
+    spectral_contrast = librosa.feature.spectral_contrast(y=y, sr=target_samples)
+
+    # Flatten the features into a single array
+    features = np.concatenate((mfccs.flatten(), chroma.flatten(), spectral_contrast.flatten()))
+
+    # Reshape to match the input shape of the model
+    features = features.reshape(1, -1)
+
+    # with open(scaler_path, 'rb') as f:
+    #     scaler = pickle.load(f)
+    #     print(type(scaler))  # Make sure this prints the expected scaler type
+    #
+    # # Ensure scaler is indeed a StandardScaler or similar instance
+    # if isinstance(scaler, StandardScaler):
+    #     # Proceed with transform
+    #     features = scaler.transform(features)
+    # else:
+    #     raise TypeError("Loaded scaler is not a valid StandardScaler instance.")
+    #
+    # # Normalize the features using the loaded scaler
+    # features = scaler.transform(features)
+
+    # Reshape to fit the model's expected input shape
+    features = features.reshape(1, features.shape[1], 1)
+
+    return features
 
 def cleanAudioFromStartandEnd(audio_segment, silence_thresh=-50.0, chunk_size=10):
     """

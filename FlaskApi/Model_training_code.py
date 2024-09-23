@@ -14,11 +14,14 @@ LEARNING_RATE = 0.0001  # Learning rate
 test_size = 0.2  # Test set size
 validation_size = 0.2  # Validation set size
 loss = "categorical_crossentropy"  # Loss function
-
+labels_dict = {
+    'Al-Falaq': 0, 'Al-Fatiha': 1, 'Al-Ikhlas': 2, 'An-Nas': 3, 'Ar-Rahman': 4,'Maryam':5,'Muhammad':6,
+    'Next':7,'Pause':8,'Play':9,'Previous':10,'Ya-Sin':11,'Yusuf':12,'Al-Kafirun':13,'GoTo':14,'Repeat':15
+}
 currentFilePath = os.path.dirname(__file__)
-data_Folder = os.path.join(currentFilePath,data_Folder)
-data_path = os.path.join(data_Folder,featuresFile)
-model_path = os.path.join(data_Folder,ModelName)
+data_Folder = os.path.join(currentFilePath,"Data")
+data_path = os.path.join(data_Folder,"features.csv")
+model_path = os.path.join(data_Folder,"STT_Model.h5")
 
 # Load and prepare data
 data = pd.read_csv(data_path).astype('float32')

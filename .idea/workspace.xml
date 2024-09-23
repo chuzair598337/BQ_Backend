@@ -5,11 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f1ed3b74-59e5-4e36-b806-1a73e73dd51e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/FlaskApi/globalVariables.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FlaskApi/AudioHandler.py" beforeDir="false" afterPath="$PROJECT_DIR$/FlaskApi/AudioHandler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FlaskApi/Data/combined_data_resampled.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/FlaskApi/MakeCSV_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/FlaskApi/MakeCSV_code.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FlaskApi/Model_training_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/FlaskApi/Model_training_code.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FlaskApi/deleteit.py" beforeDir="false" afterPath="$PROJECT_DIR$/FlaskApi/deleteit.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FlaskApi/combined_data_resampled.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/FlaskApi/mainApi.py" beforeDir="false" afterPath="$PROJECT_DIR$/FlaskApi/mainApi.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,17 +64,17 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Merging rubab&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/GitHub/BQ_Backend/MainOLD&quot;
+    &quot;git-widget-placeholder&quot;: &quot;rubab&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/GitHub/BQ_Backend/FlaskApi/Data&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\GitHub\BQ_Backend\FlaskApi\Data" />
+      <recent name="D:\GitHub\BQ_Backend\FlaskApi" />
       <recent name="D:\GitHub\BQ_Backend\MainOLD" />
       <recent name="D:\GitHub\BQ_Backend\AudioQuran" />
       <recent name="D:\GitHub\BQ_Backend\Audio_Voices" />
-      <recent name="D:\GitHub\BQ_Backend\Main" />
-      <recent name="D:\GitHub\BQ_Backend\Audio_Voices\suras" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\GitHub\BQ_Backend\Audio_Voices\Suras\Al-Fil" />
@@ -82,7 +83,29 @@
       <recent name="D:\GitHub\BQ_Backend\Audio_Voices" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.server">
+  <component name="RunManager" selected="Python.mainApi">
+    <configuration name="MakeCSV_code" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="BQ_Backend" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/FlaskApi" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/FlaskApi/MakeCSV_code.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="Model_training_code" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="BQ_Backend" />
       <option name="ENV_FILES" value="" />
@@ -92,11 +115,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/AudioQuran" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/FlaskApi" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/AudioQuran/Model_training_code.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/FlaskApi/Model_training_code.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -149,28 +172,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="preprocess_voice_dataset_and_save_as_json" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="BQ_Backend" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MainOLD" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MainOLD/preprocess_voice_dataset_and_save_as_json.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="server" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="BQ_Backend" />
       <option name="ENV_FILES" value="" />
@@ -195,11 +196,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.mainApi" />
+        <item itemvalue="Python.MakeCSV_code" />
+        <item itemvalue="Python.Model_training_code" />
         <item itemvalue="Python.server" />
         <item itemvalue="Python.model_train_using_cnn" />
-        <item itemvalue="Python.preprocess_voice_dataset_and_save_as_json" />
-        <item itemvalue="Python.mainApi" />
-        <item itemvalue="Python.Model_training_code" />
       </list>
     </recent_temporary>
   </component>
