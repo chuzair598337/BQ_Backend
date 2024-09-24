@@ -257,7 +257,7 @@ def processVoiceCommand(wav_file_path):
     audio_segment = loadAudio(wav_file_path)
     print(f"Duration of the origional audio: {len(audio_segment)} ms")
     # remove last and start noise
-    trimmed_audio = cleanAudioFromStartandEnd(audio_segment, silence_thresh=-34.3, chunk_size=10) # silence_thresh=-28, chunk_size=10
+    trimmed_audio = cleanAudioFromStartandEnd(audio_segment, silence_thresh=-34.4, chunk_size=10) # silence_thresh=-34.3, chunk_size=10
     # split audio into list of words audio
     commands = split_audio_on_silence(trimmed_audio, min_silence_len=80, silence_thresh=-50) # min_silence_len=80, silence_thresh=-50
     print("Split audio files:", commands)

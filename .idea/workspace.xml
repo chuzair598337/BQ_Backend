@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f1ed3b74-59e5-4e36-b806-1a73e73dd51e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/database/BQ_Database.db" beforeDir="false" afterPath="$PROJECT_DIR$/Data/database/BQ_Database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FlaskApi/mainApi.py" beforeDir="false" afterPath="$PROJECT_DIR$/FlaskApi/mainApi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FlaskApi/tempApi.py" beforeDir="false" afterPath="$PROJECT_DIR$/FlaskApi/tempApi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FlaskApi/AudioHandler.py" beforeDir="false" afterPath="$PROJECT_DIR$/FlaskApi/AudioHandler.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -219,5 +217,16 @@
       <updated>1724932546464</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/FlaskApi/AudioHandler.py</url>
+          <line>266</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
