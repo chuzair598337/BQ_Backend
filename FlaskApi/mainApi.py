@@ -568,7 +568,17 @@ def audio_Prediction():
 
     result = processVoiceCommand(wav_file_path)
 
-    return jsonify({"result":result})
+    # Create a new dictionary with keys like "key1", "key2", etc.
+    result_dict = {f"key{index + 1}": value for index, value in enumerate(result)}
+
+    # Print the result
+    print(result_dict)
+
+
+    # return jsonify({"result":result})
+
+    # Return as a JSON response using jsonify
+    return jsonify(result_dict)
 
 
 

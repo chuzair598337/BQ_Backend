@@ -44,11 +44,14 @@ def audio_Prediction():
         {"key1": "Play", "key2": "Al-Baqarah"},  # 6 (Surah 2)
         {"key1": "Play", "key2": "Aal-E-Imran"},  # 7 (Surah 3)
         {"key1": "Play", "key2": "An-Nisa"},  # 8 (Surah 4)
-        {"key1": "Play", "key2": "Al-Maidah"}  # 9 (Surah 5)
+        {"key1": "Play", "key2": "Al-Maidah"},  # 9 (Surah 5)
+        {"key1": "sjdhb", "key2": "Al-Maidah"}, # 10
+        {"key1": "sjdhb", "key2": "Hud"},  # 11
+        {"key1": "An-Nisa", "key2": "Hu"}  # 12
     ]
 
     # return jsonify({"text": result})
-    return jsonify(result[5])
+    return jsonify(result[12])
 
 
 def save_audio(file):
