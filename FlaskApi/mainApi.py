@@ -189,6 +189,66 @@ def surah_bayan_audios(surah_id):
     # Return the list of audio files with their status
     return jsonify(audio_files)
 
+####
+
+# get List of tilawat audios in Range and pick from folder in api side and return
+@app.route('/api/surahtilawataudiosinrange/<int:surah_id>/<int:verse_from>/<int:verse_to>', methods=['GET'])
+def surah_tilawat_audios_In_Range(surah_id, verse_from, verse_to):
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    # Fetch verse file names for the specified surah ID
+    cursor.execute("SELECT verseFileName FROM QuranEPak WHERE surahID=? and verseID between ? and ? ORDER BY verseID ASC", (surah_id,verse_from,verse_to))
+    surahs = cursor.fetchall()
+
+    conn.close()
+
+    # Prepare a list to store the results
+    audio_files = []
+
+    for row in surahs:
+        filename = row['verseFileName']
+        filename = filename.strip()
+        file_path = os.path.join(tilwatAudios, filename)
+
+        # Check if the file exists
+        if os.path.exists(file_path):
+            audio_files.append({"verseFileName": filename, "found": True})
+        else:
+            audio_files.append({"verseFileName": filename, "found": False})
+
+    # Return the list of audio files with their status
+    return jsonify(audio_files)
+
+# get List of bayan audios and pick from folder in api side and return
+@app.route('/api/surahbayanaudiosinrange/<int:surah_id>/<int:verse_from>/<int:verse_to>', methods=['GET'])
+def surah_bayan_audios_In_Range(surah_id, verse_from, verse_to):
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    # Fetch verse file names for the specified surah ID
+    cursor.execute("SELECT verseFileName FROM Bayans WHERE surahID=? and verseFrom between ? and ? ORDER BY verseFrom ASC", (surah_id,verse_from,verse_to))
+    surahs = cursor.fetchall()
+
+    conn.close()
+
+    # Prepare a list to store the results
+    audio_files = []
+
+    for row in surahs:
+        filename = row['verseFileName']
+        filename = filename.strip()
+        file_path = os.path.join(bayanAudios, filename)
+
+        # Check if the file exists
+        if os.path.exists(file_path):
+            audio_files.append({"verseFileName": filename, "found": True})
+        else:
+            audio_files.append({"verseFileName": filename, "found": False})
+
+    # Return the list of audio files with their status
+    return jsonify(audio_files)
+
 @app.route('/api/surahtilawataudios/file/<filename>', methods=['GET'])
 def get_tilawat_audio_file(filename):
     file_path = os.path.join(tilwatAudios, filename)
@@ -380,9 +440,10 @@ def create_bookmark():
     conn = connect_db()
     cursor = conn.cursor()
     cursor.execute("""
-        INSERT INTO Bookmarks (surahID, verseID, bookmarkDescription)
-        VALUES (?, ?, ?)""",
-        (data['surahID'], data['verseID'], data['bookmarkDescription']))
+            INSERT INTO Bookmarks (surahID, bookmarkTitle, verseFrom, verseTo, repeatCount, type)
+            VALUES (?, ?, ?, ?, ?, ?)""",
+                   (data['surahID'], data['bookmarkTitle'], data['verseFrom'], data['verseTo'], data['repeatCount'],
+                    data['type']))
     conn.commit()
     conn.close()
     return jsonify({"message": "Bookmark created successfully"}), 201
@@ -394,10 +455,11 @@ def update_bookmark(bookmark_id):
     conn = connect_db()
     cursor = conn.cursor()
     cursor.execute("""
-        UPDATE Bookmarks
-        SET surahID=?, verseID=?, bookmarkDescription=?
-        WHERE bookmarkID=?""",
-        (data['surahID'], data['verseID'], data['bookmarkDescription'], bookmark_id))
+            UPDATE Bookmarks
+            SET surahID=?, bookmarkTitle=?, verseFrom=?, verseTo=?, repeatCount=?, type=?
+            WHERE bookmarkID=?""",
+                   (data['surahID'], data['bookmarkTitle'], data['verseFrom'], data['verseTo'], data['repeatCount'],
+                    data['type'], bookmark_id))
     conn.commit()
     conn.close()
     return jsonify({"message": "Bookmark updated successfully"})
@@ -444,7 +506,8 @@ def create_chain():
     data = request.json
     conn = connect_db()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO Chains (chainTitle) VALUES (?)", (data['chainTitle'],))
+    cursor.execute("INSERT INTO Chains (chainTitle, type, repeatCount) VALUES (?, ?, ?)",
+                   (data['chainTitle'], data['type'], data['repeatCount']))
     conn.commit()
     conn.close()
     return jsonify({"message": "Chains created successfully"}), 201
@@ -455,7 +518,8 @@ def update_chain(chain_id):
     data = request.json
     conn = connect_db()
     cursor = conn.cursor()
-    cursor.execute("UPDATE Chains SET chainTitle=? WHERE chainID=?", (data['chainTitle'], chain_id))
+    cursor.execute("UPDATE Chains SET chainTitle=?, type=?, repeatCount=? WHERE chainID=?",
+                   (data['chainTitle'], data['type'], data['repeatCount'], chain_id))
     conn.commit()
     conn.close()
     return jsonify({"message": "Chains updated successfully"})
@@ -487,7 +551,7 @@ def get_chaindetails():
 def get_chaindetail(chaindetail_id):
     conn = connect_db()
     cursor = conn.cursor()
-    cursor.execute("SELECT c.chainID, c.chainTitle, cd.chainDetailID, cd.verseFrom, cd.verseTo, cd.repeatCount, cd.sequenceNo FROM Chains c INNER JOIN chainsDetail cd ON c.chainID = cd.chainID and c.chainID = ? ORDER BY cd.sequenceNo ASC;", (chaindetail_id,))
+    cursor.execute("SELECT c.chainID, c.chainTitle, cd.chainDetailID, cd.surahID, cd.verseFrom, cd.verseTo, cd.repeatCount, cd.sequenceNo FROM Chains c INNER JOIN chainDetails cd ON c.chainID = cd.chainID and c.chainID = ? ORDER BY cd.sequenceNo ASC;", (chaindetail_id,))
     chaindetail = cursor.fetchall()
     conn.close()
     if chaindetail:
@@ -501,10 +565,12 @@ def create_chaindetail():
     data = request.json
     conn = connect_db()
     cursor = conn.cursor()
+    # Insert query includes all necessary fields for chainDetails
     cursor.execute("""
-        INSERT INTO chainDetail (chainID, verseFrom, verseTo, repeatCount, sequenceNo)
-        VALUES (?, ?, ?, ?, ?)""",
-        (data['chainID'], data['verseFrom'], data['verseTo'], data['repeatCount'], data['sequenceNo']))
+            INSERT INTO chainDetails (chainID, surahID, verseFrom, verseTo, repeatCount, sequenceNo)
+            VALUES (?, ?, ?, ?, ?, ?)""",
+                   (data['chainID'], data['surahID'], data['verseFrom'], data['verseTo'], data['repeatCount'],
+                    data['sequenceNo']))
     conn.commit()
     conn.close()
     return jsonify({"message": "ChainDetail created successfully"}), 201
@@ -515,11 +581,13 @@ def update_chaindetail(chaindetail_id):
     data = request.json
     conn = connect_db()
     cursor = conn.cursor()
+    # Update query includes all necessary fields for chainDetails
     cursor.execute("""
-        UPDATE chainDetail
-        SET chainID=?, verseFrom=?, verseTo=?, repeatCount=?, sequenceNo=?
-        WHERE chainDetailID=?""",
-        (data['chainID'], data['verseFrom'], data['verseTo'], data['repeatCount'], data['sequenceNo'], chaindetail_id))
+            UPDATE chainDetails
+            SET chainID=?, surahID=?, verseFrom=?, verseTo=?, repeatCount=?, sequenceNo=?
+            WHERE chainDetailID=?""",
+                   (data['chainID'], data['surahID'], data['verseFrom'], data['verseTo'], data['repeatCount'],
+                    data['sequenceNo'], chaindetail_id))
     conn.commit()
     conn.close()
     return jsonify({"message": "ChainDetail updated successfully"})
